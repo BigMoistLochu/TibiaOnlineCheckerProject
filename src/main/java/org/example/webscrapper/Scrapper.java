@@ -1,5 +1,6 @@
 package org.example.webscrapper;
 
+import org.example.charactercontainer.CharacterContainer;
 import org.example.charactercontainer.models.Character;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,9 +21,8 @@ public class Scrapper {
     public void getScrapp()
     {
         try {
-            System.out.println(getNickByCssSelector());
-            System.out.println(getExperienceCssSelector());
             Character character = new Character(getNickByCssSelector(),getExperienceCssSelector());
+            CharacterContainer.uploadCharacter(character);
         }
         catch (IllegalArgumentException e){
             System.out.println("Nieudana proba ze scrappowania postaci blad: "+ e.getMessage());

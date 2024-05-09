@@ -10,14 +10,14 @@ import java.util.Map;
 public class CharacterContainer {
     private static final Map<String, Character> characterMap = new HashMap<>();
 
+    public static Map<String, Character> getCharacterMap() {
+        return characterMap;
+    }
+
     public synchronized static void addCharacterToContainer(Character newCharacter){
         if(!characterMap.containsKey(newCharacter.getNick())){
             characterMap.put(newCharacter.getNick(),newCharacter);
         }
-    }
-
-    public static Map<String, Character> getCharacterMap() {
-        return characterMap;
     }
 
     public static List<Character> getAllExperiencedPlayers(){
@@ -28,43 +28,46 @@ public class CharacterContainer {
         return listExperiencedPlayers;
     }
 
+    //BELOW EVERYTHING IS FOR SCRAPPER
 
-    public static Character getCharacterByName(String name)
-    {
-        if(!characterMap.containsKey(name)) return null;
-        return characterMap.get(name);
+    public static void uploadCharacter(Character character) {
+        if(characterMap.containsKey(character.getNick())){
+            if(updateExpIfChanged(character.getNick(), character.getExperience())){
+                System.out.println("Pomyslnie zaktualizowano postac o nicku:" + character.getNick());
+            }else {
+                System.out.println("Cos poszlo nie tak przy aktualizacji postaci o nicku: " + character.getNick());
+            }
+        }
+        else{
+            addCharacterToContainer(character);
+            System.out.println("Dodano postac do CharacterContainera o nicku:" + character.getNick());
+        }
     }
+    private static boolean updateExpIfChanged(String name,int newExperience){
+        Character characterToUpdate = characterMap.get(name);
+        int oldExperience = characterToUpdate.getExperience();
 
-
-    public static Character createCharacterByCredentials(String nick,String exp){
-        Character character = new Character(nick);
-        character.setIsExp(false);
-        return character;
-    }
-
-    public static boolean checkIsPlayerExp(String name,String newExperience){
-        Character character = getCharacterByName(name);
-        //Tutaj sprawdzenie warunku czy (nowy exp-stary exp>0)
-
-
-        return true;
-    }
-
-    //ta funkcje bedziesz w sumie wywolywal non stop
-    public static void checkCharacter(String nick,String exp) {
-        //1.Sprawdz czy nick sie juz znajduje w liscie
-        if(!characterMap.containsKey(nick)) createCharacterByCredentials(nick,exp);
-        else {
-            //char znajduje sie w liscie to wiemy
+        if(Math.abs(newExperience-oldExperience)>0){
+            //jesli nie bedzie mial ustawionego statusu ze expi to zmien to
+            if(!characterToUpdate.isExp()) characterToUpdate.setIsExp(true);
+            //zmien mu expa zeby przy ponownym mial juz zaktualizowane to
+            characterToUpdate.setExperience(newExperience);
+            //zaktualizuj dana postac w mapie
+            characterMap.put(characterToUpdate.getNick(),characterToUpdate);
+            return true;
         }
 
+        if(Math.abs(newExperience-oldExperience)<=0){
+            if(characterToUpdate.isExp()) characterToUpdate.setIsExp(false);
+            characterMap.put(characterToUpdate.getNick(),characterToUpdate);
+            return true;
+        }
+        return false;
     }
 
-    //funkcja ktora sprawdza czy ktos expi
-    //webscrapper bedzie wchodzi na strone non stop->odwola sie do konenera
-    //1.Dodaj postac
-    //2.jesli postac jest to sprawdz czy dane sie nie zmienili(nowy exp-stary exp>0))
-    //3.jesli sie zmienily to zaktualizuj stan isExp
+
+
+
 
 
 }
