@@ -56,12 +56,22 @@ class CharacterContainerTest {
     }
 
     @Test
-    void getCharacterByName() {
+    void getCharacterByNameShouldReturnCorrectCharacterIfCharacterIsInContain() {
+        List<Character> characters = createSomeCharacter();
+        for(Character character: characters){
+            CharacterContainer.addCharacterToContainer(character);
+        }
+        Character selectedCharacter = CharacterContainer.getCharacterByName("PawelZborzy");
+        Assertions.assertNotNull(selectedCharacter);
+        Assertions.assertEquals("PawelZborzy", selectedCharacter.getNick());
     }
 
     @Test
-    void getCharacterMap() {
+    void getCharacterByNameShouldReturnNullWhenCharacterIsAbsent() {
+        Character selectedCharacter = CharacterContainer.getCharacterByName("PawelZborzy");
+        Assertions.assertNull(selectedCharacter);
     }
+
 
 
 
