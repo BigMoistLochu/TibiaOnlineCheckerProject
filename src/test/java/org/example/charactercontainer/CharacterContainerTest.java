@@ -19,35 +19,28 @@ class CharacterContainerTest {
     }
 
     public List<Character> createSomeCharacter(){
-        List<Character> characterList = new ArrayList<>();
-        Character character = new Character("DawidekTucznik");
-        Character character2 = new Character("DawidekTucznik");
-        Character character3 = new Character("PawelZborzy");
-        Character character4 = new Character("PawelZbogdanca");
-        characterList.add(character);
-        characterList.add(character2);
-        characterList.add(character3);
-        characterList.add(character4);
-        return characterList;
+        return new ArrayList<>(List.of(new Character("DawidekTucznik"),
+                new Character("DawidekTucznik"),
+                new Character("PawelZborzy"),
+                new Character("PawelZbogdanca")));
     }
 
     @Test
-    void addCharacterToContainer() {
-        List<Character> characters = createSomeCharacter();
-        for(Character character: characters){
-            CharacterContainer.addCharacterToContainer(character);
-        }
+    void addCharacterToContainerShouldAddUniqueNickToMap() {
+        createSomeCharacter()
+                .forEach(character -> CharacterContainer.addCharacterToContainer(character));
         Assertions.assertEquals(3,characterMapForTest.size());
+        Assertions.assertNotEquals(4,characterMapForTest.size());
     }
 
     @Test
-    void getAllExperiencedPlayers() {
-        List<Character> characters = createSomeCharacter();
-        for(Character character: characters){
-            if(character.getNick().equals("PawelZbogdanca")) character.setIsExp(true);
-            CharacterContainer.addCharacterToContainer(character);
-        }
-
+    void getAllExperiencedPlayersListShouldReturnOnlyOneCharacterWithStatusIsExpTrue() {
+        createSomeCharacter().forEach(character -> {
+            if(character.getNick().equals("PawelZbogdanca")){
+                character.setIsExp(true);
+                CharacterContainer.addCharacterToContainer(character);
+            }
+        });
         List<Character> charactersExperienced = CharacterContainer.getAllExperiencedPlayers();
 
         Assertions.assertEquals(1,charactersExperienced.size());
@@ -56,19 +49,8 @@ class CharacterContainerTest {
     }
 
     @Test
-    void getCharacterByNameShouldReturnCorrectCharacterIfCharacterIsInContain() {
-        List<Character> characters = createSomeCharacter();
-        for(Character character: characters){
-            CharacterContainer.addCharacterToContainer(character);
-        }
+    void getCharacterByKeyShouldReturnNullWhenCharacterIsAbsent() {
         Character selectedCharacter = CharacterContainer.getCharacterMap().get("PawelZborzy");
-        Assertions.assertNotNull(selectedCharacter);
-        Assertions.assertEquals("PawelZborzy", selectedCharacter.getNick());
-    }
-
-    @Test
-    void getCharacterByNameShouldReturnNullWhenCharacterIsAbsent() {
-        Character selectedCharacter = CharacterContainer.getCharacterMap().get("PawelZborzy");;
         Assertions.assertNull(selectedCharacter);
     }
 
