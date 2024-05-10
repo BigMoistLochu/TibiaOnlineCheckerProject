@@ -23,7 +23,7 @@ public class Character {
             String expWithoutComma = exp.replace(",", "");
             this.experience = Integer.parseInt(expWithoutComma);
         }catch (NumberFormatException numberFormatException){
-            throw new IllegalArgumentException("Nie udalo sie stworzyc ze stringa liczby odpowiadajaca Expie");
+            throw new IllegalArgumentException("Blad przy parsowaniu stringa na inta");
         }
     }
 
