@@ -40,7 +40,7 @@ public class SendMessageToDiscord {
         conOutputStream.close();
 
         int responseStatus = con.getResponseCode();
-        if(responseStatus==204) System.out.println("pomyslnie wyslano nowa oferte na discord");
+        if(responseStatus==204) System.out.println("pomyslnie wyslano nowa wiadomosc na discord");
         else System.out.println("cos poszlo nie tak kod:" + responseStatus);
         return responseStatus;
     }
