@@ -15,10 +15,9 @@ public class Scrapper {
         doc = Jsoup.connect(link).timeout(5000)
                 .userAgent("Mozilla")
                 .get();
-
     }
 
-    public void getScrapp()
+    public void getScrappCharacterCredentialsFromWebsite()
     {
         try {
             Character character = new Character(getNickByCssSelector(),getExperienceCssSelector());

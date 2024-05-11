@@ -23,8 +23,7 @@ public class ScrappCharacterFromWebsiteTask extends TimerTask {
             "https://www.ixodus.net/character/show/Komek",
             "https://www.ixodus.net/character/show/Terrorysta_Jebany",
             "https://www.ixodus.net/character/show/Kamisek",
-            "https://www.ixodus.net/character/show/Ten_Po_Amarenie",
-            "https://www.ixodus.net/character/show/Mix's"));
+            "https://www.ixodus.net/character/show/Ten_Po_Amarenie"));
 
 
     @Override
@@ -36,7 +35,7 @@ public class ScrappCharacterFromWebsiteTask extends TimerTask {
                 System.out.println("Uruchomiono:"+ Thread.currentThread());
                 try {
                     Scrapper scrapper = new Scrapper(link);
-                    scrapper.getScrapp();
+                    scrapper.getScrappCharacterCredentialsFromWebsite();
                 } catch (IOException e) {
                     System.out.println("Pojawil sie blad przy tworzeniu Scrappera na watku:"+Thread.currentThread());
                 }
